@@ -30,5 +30,21 @@
    [table-header headers header-fn header-class] 
    [body-fn data-rows]])
 
+(defn default-v-table-row-fn [rows class]
+  (doall (mapv (fn [r]
+                 (into
+                  [:tr [:th {:class class :scope "row"} (first r)]]
+                  (for [d (rest r)]
+                    [:td d])))
+               rows)))
 
+(defn v-table [data-rows & {:keys [row-fn table-class header-class]
+                            :or   {row-fn #'default-v-table-row-fn
+                                   table-class "table"
+                                   header-class ""}}]
+  [:table {:class table-class}
+   (into
+    [:tbody]
+    (for [r (row-fn data-rows header-class)]
+      r))])
 
