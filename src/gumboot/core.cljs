@@ -44,17 +44,24 @@
                     "lines"]]
    [:p "This is a " [typ/variable "variable"] " style"]
    [:p "This is some " [typ/user-input "example user input"]]
-   [:p "And here is some " [typ/console-output "example output from a console"]]
+   [:p "And here is some " [typ/console-output "example output from a console"]]])
+
+(defn table-component []
+  [:div
    [typ/display 4 "Table Components"]
-   [:p [tbl/table sample-headers sample-rows]]
-   [:p "Dark Table" [tbl/table sample-headers sample-rows :table-class "table table-dark"]]]
-  )
+   [tbl/table sample-headers sample-rows]
+   [:p "Dark Table"]
+   [tbl/table sample-headers sample-rows :table-class "table table-dark"]
+   [:p "A sample vertical table"]
+   [tbl/v-table sample-rows]])
+
 
 (defn home []
   [:div.container
    [typ/display 1 "The Demo Page"]
    [:p (:text @app-state)]
    [typography-component]
+   [table-component]
    [:hr]
    [:p "Figwheel reload counter: " (:__figwheel_counter @app-state)]])
 
