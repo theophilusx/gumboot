@@ -3,7 +3,8 @@
             [gumboot.typography :as typ]
             [gumboot.table :as tbl]
             [gumboot.alert :as alt]
-            [gumboot.badge :as bdg]))
+            [gumboot.badge :as bdg]
+            [gumboot.card :as crd]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defonce app-state (r/atom {:text "Hello world!"}))
@@ -96,8 +97,20 @@
    [:p "Danger pill badge " [bdg/badge-danger-p "5p"]]
    [:p "Info pill badge " [bdg/badge-info-p "6p"]]
    [:p "Light pill badge " [bdg/badge-light-p "7p"]]
-   [:p "Dark pill badge " [bdg/badge-dark-p "8p"]]
-])
+   [:p "Dark pill badge " [bdg/badge-dark-p "8p"]]])
+
+(defn card-component []
+  [:div
+   [typ/display 5 "Card components"]
+   [crd/card "A very basic card"]
+   [crd/card "A card with a title" :title "Some Title"]
+   [crd/card "A card with a header & title" :title "Title" :header "the header"]
+   [crd/card "A card with a header, footer & title"
+    :title "A title" :header "The header" :footer "The footer"]
+   [crd/card "A card with colour" :card-class "bg-primary"]
+   [crd/card "A card with some colurs"
+    :header "The header" :footer "The footer" :title "A Title"
+    :card-class "text-info" :header-class "text-warning" :footer-class "text-danger"]])
 
 (defn home []
   [:div.container
@@ -107,6 +120,7 @@
    [table-component]
    [alert-component]
    [badge-component]
+   [card-component]
    [:hr]
    [:p "Figwheel reload counter: " (:__figwheel_counter @app-state)]])
 
