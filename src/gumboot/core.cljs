@@ -1,7 +1,8 @@
 (ns ^:figwheel-hooks gumboot.core
   (:require [reagent.core :as r]
             [gumboot.typography :as typ]
-            [gumboot.table :as tbl]))
+            [gumboot.table :as tbl]
+            [gumboot.alert :as alt]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defonce app-state (r/atom {:text "Hello world!"}))
@@ -55,6 +56,25 @@
    [:p "A sample vertical table"]
    [tbl/v-table sample-rows]])
 
+(defn alert-component []
+  [:div
+   [typ/display 4 "Alerts"]
+   [alt/alert-primary "A primaary alert"]
+   [alt/alert-secondary "A secondary alert"]
+   [alt/alert-success "A success alert"]
+   [alt/alert-warning "A warning alert"]
+   [alt/alert-danger "A danger alert"]
+   [alt/alert-info "An info alert"]
+   [alt/alert-light "A light alert"]
+   [alt/alert-dark "A dark alert"]
+   [alt/alert-primary-d "A primaary dismissible alert"]
+   [alt/alert-secondary-d "A secondary dismissible alert"]
+   [alt/alert-success-d "A success dismissible alert"]
+   [alt/alert-warning-d  "A warning dismissible alert"]
+   [alt/alert-danger-d "A danger dismissible alert"]
+   [alt/alert-info-d "An info dismissible alert"]
+   [alt/alert-light-d "A light dismissible alert"]
+   [alt/alert-dark-d "A dark dismissible alert"]])
 
 (defn home []
   [:div.container
@@ -62,6 +82,7 @@
    [:p (:text @app-state)]
    [typography-component]
    [table-component]
+   [alert-component]
    [:hr]
    [:p "Figwheel reload counter: " (:__figwheel_counter @app-state)]])
 
