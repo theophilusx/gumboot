@@ -2,7 +2,8 @@
   (:require [reagent.core :as r]
             [gumboot.typography :as typ]
             [gumboot.table :as tbl]
-            [gumboot.alert :as alt]))
+            [gumboot.alert :as alt]
+            [gumboot.badge :as bdg]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defonce app-state (r/atom {:text "Hello world!"}))
@@ -76,6 +77,28 @@
    [alt/alert-light-d "A light dismissible alert"]
    [alt/alert-dark-d "A dark dismissible alert"]])
 
+(defn badge-component []
+  [:div
+   [typ/display 4 "Badges"]
+   [:p "Primary badge " [bdg/badge-primary 1]]
+   [:p "Secondary badge " [bdg/badge-secondary 2]]
+   [:p "Success badge " [bdg/badge-success 3]]
+   [:p "Warning badge " [bdg/badge-warning 4]]
+   [:p "Danger badge " [bdg/badge-danger 5]]
+   [:p "Info badge " [bdg/badge-info 6]]
+   [:p "Light badge " [bdg/badge-light 7]]
+   [:p "Dark badge " [bdg/badge-dark 8]]
+   [typ/display 5 "Pill Badges"]
+   [:p "Primary pill badge " [bdg/badge-primary-p "1p"]]
+   [:p "Secondary pill badge " [bdg/badge-secondary-p "2p"]]
+   [:p "Success pill badge " [bdg/badge-success-p "3p"]]
+   [:p "Warning pill badge " [bdg/badge-warning-p "4p"]]
+   [:p "Danger pill badge " [bdg/badge-danger-p "5p"]]
+   [:p "Info pill badge " [bdg/badge-info-p "6p"]]
+   [:p "Light pill badge " [bdg/badge-light-p "7p"]]
+   [:p "Dark pill badge " [bdg/badge-dark-p "8p"]]
+])
+
 (defn home []
   [:div.container
    [typ/display 1 "The Demo Page"]
@@ -83,6 +106,7 @@
    [typography-component]
    [table-component]
    [alert-component]
+   [badge-component]
    [:hr]
    [:p "Figwheel reload counter: " (:__figwheel_counter @app-state)]])
 
