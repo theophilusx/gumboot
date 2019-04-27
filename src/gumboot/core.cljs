@@ -110,7 +110,15 @@
    [crd/card "A card with colour" :card-class "bg-primary"]
    [crd/card "A card with some colurs"
     :header "The header" :footer "The footer" :title "A Title"
-    :card-class "text-info" :header-class "text-warning" :footer-class "text-danger"]])
+    :card-class "text-info" :header-class "text-warning"
+    :footer-class "text-danger"]
+   [:p "Now some collapsible cards"]
+   [crd/card-collapsable "card1id" "card 1 header" "This is card one!"]
+   [crd/card-collapsable "card2id" "card 2 header" "A collapsible card with a title"
+    :title "A card title"]
+   [crd/card-collapsable "card3id" "Card 3 Header"
+    "A collapsable card with title and footer" :title "The Title"
+    :footer "The footer"]])
 
 (defn home []
   [:div.container
