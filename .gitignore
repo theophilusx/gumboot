@@ -12,3 +12,6 @@ pom.xml.asc
 .lein-failures
 .nrepl-port
 .cpcache/
+.rebel_readline_history
+.lein-env
+resources/public/cljs-out
