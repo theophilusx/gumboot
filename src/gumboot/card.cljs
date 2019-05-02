@@ -41,3 +41,4 @@
     (if (not (nil? footer))
       [:div {:class (str "card-footer " footer-class)}
        footer])]])
+

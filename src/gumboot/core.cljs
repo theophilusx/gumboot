@@ -27,7 +27,7 @@
 
 (defn typography-component []
   [:div
-   [typ/display 4 "Sample of various typography components"]
+   [typ/display 4 "Typography"]
    [:p [typ/highlight "This text should be highlighted in some way"]]
    [:p [typ/deleted "This text should look like it has been deleted"]]
    [:p [typ/inserted "This text should look like added or inserted text"]]
@@ -51,7 +51,7 @@
 
 (defn table-component []
   [:div
-   [typ/display 4 "Table Components"]
+   [typ/display 4 "Tables"]
    [tbl/table sample-headers sample-rows]
    [:p "Dark Table"]
    [tbl/table sample-headers sample-rows :table-class "table table-dark"]
@@ -101,7 +101,7 @@
 
 (defn card-component []
   [:div
-   [typ/display 5 "Card components"]
+   [typ/display 4 "Cards"]
    [crd/card "A very basic card"]
    [crd/card "A card with a title" :title "Some Title"]
    [crd/card "A card with a header & title" :title "Title" :header "the header"]
