@@ -4,7 +4,8 @@
             [gumboot.table :as tbl]
             [gumboot.alert :as alt]
             [gumboot.badge :as bdg]
-            [gumboot.card :as crd]))
+            [gumboot.card :as crd]
+            [gumboot.input :as ipt]))
 
 ;; define your app data so that it doesn't get over-written on reload
 (defonce app-state (r/atom {:text "Hello world!"}))
@@ -120,6 +121,48 @@
     "A collapsable card with title and footer" :title "The Title"
     :footer "The footer"]])
 
+(defn input-component []
+  (let [data (r/atom {})]
+    (fn []
+      [:div
+       [typ/display 4 "Input Fields"]
+       [:div
+        [ipt/text :test-text data]
+        "Some test text input "
+        [typ/inline-code (get @data :test-text)]]
+       [:div
+        [ipt/password :test-password data]
+        "A test password "
+        [typ/inline-code (get @data :test-password)]]
+       [:div
+        [ipt/tel :test-phone data]
+        "A test phone number "
+        [typ/inline-code (get @data :test-phone)]]
+       [:div
+        [ipt/email :test-email data]
+        "A test email field "
+        [typ/inline-code (get @data :test-email)]]
+       [:div
+        [ipt/number :test-number data]
+        "A test number field "
+        [typ/inline-code (get @data :test-number)]]
+       [:div
+        [ipt/number-range :test-range data 1 100]
+        "A test range "
+        [typ/inline-code (get @data :test-range)]]
+       [:div
+        [ipt/date :test-date data]
+        "A test date input field "
+        [typ/inline-code (get @data :test-date)]]
+       [:div
+        [ipt/time :test-time data]
+        "A test time field "
+        [typ/inline-code (get @data :test-time)]]
+       [:hr]
+       [:p (str @data)]])
+    )
+  )
+
 (defn home []
   [:div.container
    [typ/display 1 "The Demo Page"]
@@ -129,6 +172,7 @@
    [alert-component]
    [badge-component]
    [card-component]
+   [input-component]
    [:hr]
    [:p "Figwheel reload counter: " (:__figwheel_counter @app-state)]])
 
