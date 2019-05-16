@@ -1,9 +1,14 @@
 (ns gumboot.input
-  (:require [clojure.string :as string]
-            [gumboot.utils :as utils]))
+  (:require [gumboot.utils :as utils]))
 
 (defn value-of [e]
   (-> e .-target .-value))
+
+(defn mk-options [parent v]
+  (into
+   parent
+   (for [o v]
+     [:option {:value (utils/str->keyword o)} o])))
 
 (defn input
   ([type id model]
@@ -16,7 +21,7 @@
                      extra-attributes)]
      [:div.form-group
       [:label.pr-2 {:for id} (utils/keyword->title id)]
-      [:input attr]])))
+      [:input.form-control attr]])))
 
 (defn text
   ([id model]
@@ -66,6 +71,23 @@
   ([id model attrs]
    (input :time id model attrs)))
 
+(defn list-input
+  ([id choices model]
+   (list-input id choices model {}))
+  ([id choices model extra-attrs]
+   (let [attrs (merge {:type     "text"
+                       :id       id
+                       :list (str id "-list")
+                       :on-click (fn [el]
+                                    (swap! model assoc id (value-of el)))}
+                      extra-attrs)]
+     [:div.form-group
+      [:label.pr-2 {:for id} (utils/keyword->title id)]
+      [:input.form-control attrs]
+      (into
+       [:datalist {:id (str id "-list")}]
+       (for [c choices]
+         [:option c]))])))
 
 (defn select
   ([id options model]

@@ -179,6 +179,10 @@
         [ipt/select :select-test ["fred" "barney" "whilma"] data]
         "A test select"
         [typ/inline-code (get @data :select-test)]]
+       [:div
+        [ipt/list-input :test-list ["choice 1" "choice 2" "choice 3"] data]
+        "A test list input "
+        [typ/inline-code (get @data :test-list)]]
        [:hr]
        [:p (str @data)]])
     )
