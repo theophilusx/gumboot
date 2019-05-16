@@ -8,7 +8,8 @@
    (let [attr {:type      (name type)
                :id        (name id)
                :on-change (fn [evt]
-                            (swap! model assoc id (.-value (.-target evt))))}]
+                            (swap! model assoc
+                                   id (.-value (.-target evt))))}]
      [:div.form-group
       [:label {:for (name id)} (string/capitalize (name id))]
       [:input (into

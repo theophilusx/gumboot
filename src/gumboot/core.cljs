@@ -39,15 +39,18 @@
     [typ/abbrev "FIGJAM" "Fuck I'm Good, Just Ask Me"]]
    [:p [typ/blockquote "This is a block quote with no citations"]]
    [:p [typ/blockquote "This is a block quote with a citations" "by me"]]
-   [:p "A plan list" [typ/plain-list ["Item 1" "Item 2" "Item 3" "Item 4"]]]
-   [:p "This is an inline list " [typ/inline-list ["Item A" "Item B" "Item C"]]]
+   [:p "A plan list"
+    [typ/plain-list ["Item 1" "Item 2" "Item 3" "Item 4"]]]
+   [:p "This is an inline list "
+    [typ/inline-list ["Item A" "Item B" "Item C"]]]
    [:p "This is some " [typ/inline-code " inline code"] " style"]
    [typ/code-block ["This is some"
                     "example code block"
                     "lines"]]
    [:p "This is a " [typ/variable "variable"] " style"]
    [:p "This is some " [typ/user-input "example user input"]]
-   [:p "And here is some " [typ/console-output "example output from a console"]]])
+   [:p "And here is some "
+    [typ/console-output "example output from a console"]]])
 
 (defn table-component []
   [:div
@@ -104,20 +107,34 @@
    [typ/display 4 "Cards"]
    [crd/card "A very basic card"]
    [crd/card "A card with a title" :title "Some Title"]
-   [crd/card "A card with a header & title" :title "Title" :header "the header"]
-   [crd/card "A card with a header, footer & title"
+   [crd/card
+    "A card with a header & title"
+    :title "Title" :header "the header"]
+   [crd/card
+    "A card with a header, footer & title"
     :title "A title" :header "The header" :footer "The footer"]
-   [crd/card "A card with colour" :card-class "bg-primary"]
-   [crd/card "A card with some colurs"
+   [crd/card
+    "A card with colour"
+    :card-class "bg-primary"]
+   [crd/card
+    "A card with some colurs"
     :header "The header" :footer "The footer" :title "A Title"
     :card-class "text-info" :header-class "text-warning"
     :footer-class "text-danger"]
    [:p "Now some collapsible cards"]
-   [crd/card-collapsable "card1id" "card 1 header" "This is card one!"]
-   [crd/card-collapsable "card2id" "card 2 header" "A collapsible card with a title"
+   [crd/card-collapsable
+    "card1id"
+    "card 1 header"
+    "This is card one!"]
+   [crd/card-collapsable
+    "card2id"
+    "card 2 header"
+    "A collapsible card with a title"
     :title "A card title"]
-   [crd/card-collapsable "card3id" "Card 3 Header"
-    "A collapsable card with title and footer" :title "The Title"
+   [crd/card-collapsable
+    "card3id" "Card 3 Header"
+    "A collapsable card with title and footer"
+    :title "The Title"
     :footer "The footer"]])
 
 (defn home []
