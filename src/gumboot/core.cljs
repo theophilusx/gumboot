@@ -172,9 +172,13 @@
         "A test date input field "
         [typ/inline-code (get @data :test-date)]]
        [:div
-        [ipt/time :test-time data]
+        [ipt/time-input :test-time data]
         "A test time field "
         [typ/inline-code (get @data :test-time)]]
+       [:div
+        [ipt/select :select-test ["fred" "barney" "whilma"] data]
+        "A test select"
+        [typ/inline-code (get @data :select-test)]]
        [:hr]
        [:p (str @data)]])
     )

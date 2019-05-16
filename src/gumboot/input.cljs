@@ -1,5 +1,6 @@
 (ns gumboot.input
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [gumboot.utils :as utils]))
 
 (defn input
   ([type id model]
@@ -61,3 +62,19 @@
    (input :time id model))
   ([id model attrs]
    (input :time id model attrs)))
+
+(defn select
+  ([id options model]
+   (select id options model {}))
+  ([id options model extra-attrs]
+   (let [attrs {:name id
+                :on-change (fn [el]
+                             (println (str "id: " id))
+                             (println (str "change: " (.-value (.-target el))))
+                             (swap! model assoc id (.-value (.-target el))))}]
+     [:div.form-group
+      [:lable.control-label {:for (name id)} (utils/keyword->title id)]
+      (into
+       [:select.form-control attrs]
+       (for [o options]
+         [:option {:value (utils/str->keyword o)} o]))])))
