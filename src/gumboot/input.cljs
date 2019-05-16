@@ -23,19 +23,19 @@
 
 (defn password
   ([id model]
-   (input :password id model))
+   (input :password id model {:placeholder "Enter password"}))
   ([id model attrs]
    (input :password id model attrs)))
 
 (defn tel
   ([id model]
-   (input :tel id model))
+   (input :tel id model {:placeholder "Enter phone number"}))
   ([id model attrs]
    (input :tel id model attrs)))
 
 (defn email
   ([id model]
-   (input :email id model))
+   (input :email id model {:placeholder "Enter email"}))
   ([id model attrs]
    (input :email id model attrs)))
 
