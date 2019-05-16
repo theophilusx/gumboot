@@ -51,3 +51,8 @@
   ([id model min max attrs]
    (input :range id model (assoc attrs :min min :max max))))
 
+(defn date
+  ([id model]
+   (input :date id model))
+  ([id model attrs]
+   (input :date id model attrs)))
