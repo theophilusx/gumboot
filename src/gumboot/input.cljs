@@ -56,3 +56,9 @@
    (input :date id model))
   ([id model attrs]
    (input :date id model attrs)))
+
+(defn time
+  ([id model]
+   (input :time id model))
+  ([id model attrs]
+   (input :time id model attrs)))
