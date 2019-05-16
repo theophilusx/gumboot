@@ -1,20 +1,19 @@
 (ns gumboot.input
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [reagent.core :as r]))
 
 (defn input
   ([type id model]
    (input type id model {}))
   ([type id model extra-attributes]
-   (let [attr {:type      (name type)
-               :id        (name id)
-               :on-change (fn [evt]
-                            (swap! model assoc id (.-value (.-target evt))))}]
+   (let [attr (merge {:type      (name type)
+                      :id        (name id)
+                      :on-change (fn [evt]
+                                   (swap! model assoc id (.-value (.-target evt))))}
+                     extra-attributes)]
      [:div.form-group
-      [:label {:for (name id)} (string/capitalize (name id))]
-      [:input (into
-               attr
-               (for [k (keys extra-attributes)]
-                 [k (k extra-attributes)]))]])))
+      [:label.pr-2 {:for (name id)} (string/capitalize (name id))]
+      [:input attr]])))
 
 (defn text
   ([id model]
