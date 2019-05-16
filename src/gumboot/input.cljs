@@ -2,17 +2,20 @@
   (:require [clojure.string :as string]
             [gumboot.utils :as utils]))
 
+(defn value-of [e]
+  (-> e .-target .-value))
+
 (defn input
   ([type id model]
    (input type id model {}))
   ([type id model extra-attributes]
    (let [attr (merge {:type      (name type)
-                      :id        (name id)
+                      :id        id
                       :on-change (fn [evt]
-                                   (swap! model assoc id (.-value (.-target evt))))}
+                                   (swap! model assoc id (value-of evt)))}
                      extra-attributes)]
      [:div.form-group
-      [:label.pr-2 {:for (name id)} (string/capitalize (name id))]
+      [:label.pr-2 {:for id} (utils/keyword->title id)]
       [:input attr]])))
 
 (defn text
@@ -63,18 +66,18 @@
   ([id model attrs]
    (input :time id model attrs)))
 
+
 (defn select
   ([id options model]
    (select id options model {}))
   ([id options model extra-attrs]
    (let [attrs {:name id
                 :on-change (fn [el]
-                             (println (str "id: " id))
-                             (println (str "change: " (.-value (.-target el))))
-                             (swap! model assoc id (.-value (.-target el))))}]
+                             (swap! model assoc id (value-of el)))}]
      [:div.form-group
       [:lable.control-label {:for (name id)} (utils/keyword->title id)]
       (into
-       [:select.form-control attrs]
+       [:select.form-control attrs
+        [:option {:value ""} "-- select option --"]]
        (for [o options]
          [:option {:value (utils/str->keyword o)} o]))])))
