@@ -2,9 +2,19 @@
 
 (defn button
   ([title action]
-   [:button.btn {:type "button" :on-click action} title])
-  ([title action attrs]
-   [:button (assoc attrs :type "button" :on-click action) title]))
+   (button title action {}))
+  ([title action extra-attrs]
+   (let [attrs (merge {:type "button"
+                       :class "btn"
+                       :on-click action}
+                      extra-attrs)]
+     [:button attrs title])))
+
+(defn primary [title action]
+  (button title action {:class "btn btn-primary"}))
+
+(defn secondary [title action]
+  (button title action {:class "btn btn-secondary"}))
 
 (defn small [title action]
   (button title action {:class "btn btn-sm"}))
