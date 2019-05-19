@@ -24,8 +24,8 @@
   [headers data-rows & {:keys [header-fn body-fn table-class header-class]
                         :or {header-fn #'default-header-fn
                              body-fn #'default-data-fn
-                             table-class "table"
-                             header-class ""}}]
+                             table-class "table table-sm table-striped"
+                             header-class "table-warning"}}]
   [:table {:class table-class}
    [table-header headers header-fn header-class] 
    [body-fn data-rows]])
@@ -40,8 +40,8 @@
 
 (defn v-table [data-rows & {:keys [row-fn table-class header-class]
                             :or   {row-fn #'default-v-table-row-fn
-                                   table-class "table"
-                                   header-class ""}}]
+                                   table-class "table table-sm"
+                                   header-class "table-warning"}}]
   [:table {:class table-class}
    (into
     [:tbody]

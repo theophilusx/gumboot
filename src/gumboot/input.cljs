@@ -87,19 +87,22 @@
       (into
        [:datalist {:id (str id "-list")}]
        (for [c choices]
-         [:option c]))])))
+         [:option (str c)]))])))
 
 (defn select
   ([id options model]
    (select id options model {}))
   ([id options model extra-attrs]
-   (let [attrs {:name id
-                :on-change (fn [el]
-                             (swap! model assoc id (value-of el)))}]
+   (if (not (contains? @model id))
+     (swap! model assoc id (utils/str->keyword (str (first options)))))
+   (let [attrs (merge {:id        id
+                       :on-change (fn [el]
+                                    (swap! model assoc id (value-of el)))}
+                      extra-attrs)]
      [:div.form-group
-      [:lable.control-label {:for (name id)} (utils/keyword->title id)]
+      [:label.control-label {:for (name id)} (utils/keyword->title id)]
       (into
-       [:select.form-control attrs
-        [:option {:value ""} "-- select option --"]]
+       [:select.form-control attrs]
        (for [o options]
-         [:option {:value (utils/str->keyword o)} o]))])))
+         [:option {:value (utils/str->keyword (str o))} (str o)]))])))
+
