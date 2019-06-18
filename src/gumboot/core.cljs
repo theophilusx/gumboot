@@ -180,46 +180,138 @@
     (fn []
       [:div
        [typ/display 4 "Input Fields"]
-       [:div
-        [ipt/text :test-text data]
-        "Some test text input "
-        [typ/inline-code (get @data :test-text)]]
-       [:div
-        [ipt/password :test-password data]
-        "A test password "
-        [typ/inline-code (get @data :test-password)]]
-       [:div
-        [ipt/tel :test-phone data]
-        "A test phone number "
-        [typ/inline-code (get @data :test-phone)]]
-       [:div
-        [ipt/email :test-email data]
-        "A test email field "
-        [typ/inline-code (get @data :test-email)]]
-       [:div
-        [ipt/number :test-number data]
-        "A test number field "
-        [typ/inline-code (get @data :test-number)]]
-       [:div
-        [ipt/number-range :test-range data 1 100]
-        "A test range "
-        [typ/inline-code (get @data :test-range)]]
-       [:div
-        [ipt/date :test-date data]
-        "A test date input field "
-        [typ/inline-code (get @data :test-date)]]
-       [:div
-        [ipt/time-input :test-time data]
-        "A test time field "
-        [typ/inline-code (get @data :test-time)]]
-       [:div
-        [ipt/select :select-test ["fred" "barney" "whilma"] data]
-        "A test select"
-        [typ/inline-code (get @data :select-test)]]
-       [:div
-        [ipt/list-input :test-list ["choice 1" "choice 2" "choice 3"] data]
-        "A test list input "
-        [typ/inline-code (get @data :test-list)]]
+       [:div.row
+        [:div.col
+         [ipt/text :test-text data]]
+        [:div.col
+         "Some test text input "
+         [typ/inline-code (get @data :test-text)]]]
+       [:div.row
+        [:div.col
+         [ipt/text :inline-test-text data :inline true]]
+        [:div.col
+         "Inline test test input "
+         [typ/inline-code (get @data :inline-test-text)]]]
+       [:div.row
+        [:div.col
+         [ipt/password :test-password data]]
+        [:div.col
+         "A test password "
+         [typ/inline-code (get @data :test-password)]]]
+       [:div.row
+        [:div.col
+         [ipt/password :inline-test-password data :inline true]]
+        [:div.col
+         "Inline password test "
+         [typ/inline-code (get @data :inline-test-password)]]]
+       [:div.row
+        [:div.col
+         [ipt/tel :test-phone data]]
+        [:div.col
+         "A test phone number "
+         [typ/inline-code (get @data :test-phone)]]]
+       [:div.row
+        [:div.col
+         [ipt/tel :inline-test-phone data :inline true]]
+        [:div.col
+         "An inline phone number test "
+         [typ/inline-code (get @data :inline-test-phone)]]]
+       [:div.row
+        [:div.col
+         [ipt/email :test-email data]]
+        [:div.col
+         "A test email field "
+         [typ/inline-code (get @data :test-email)]]]
+       [:div.row
+        [:div.col
+         [ipt/email :inline-test-email data :inline true]]
+        [:div.col
+         "An inline email test "
+         [typ/inline-code (get @data :inline-test-email)]]]
+       [:div.row
+        [:div.col
+         [ipt/number :test-number data]]
+        [:div.col
+         "A test number field "
+         [typ/inline-code (get @data :test-number)]]]
+       [:div.row
+        [:div.col
+         [ipt/number :inline-test-number data :inline true]]
+        [:div.col
+         "An inline number test "
+         [typ/inline-code (get @data :inline-test-number)]]]
+       [:div.row
+        [:div.col
+         [ipt/number-range :test-range data 1 100]]
+        [:div.col
+         "A test range "
+         [typ/inline-code (get @data :test-range)]]]
+       [:div.row
+        [:div.col
+         [ipt/number-range :inline-test-range data 1 100 :inline true]]
+        [:div.col
+         "Inline range test "
+         [typ/inline-code (get @data :inline-test-range)]]]
+       [:div.row
+        [:div.col
+         [ipt/date :test-date data]]
+        [:div.col
+         "A test date input field "
+         [typ/inline-code (get @data :test-date)]]]
+       [:div.row
+        [:div.col
+         [ipt/date :inline-test-date data :inline true]]
+        [:div.col
+         "Inline date test "
+         [typ/inline-code (get @data :inline-test-date)]]]
+       [:div.row
+        [:div.col
+         [ipt/time-input :test-time data]]
+        [:div.col
+         "A test time field "
+         [typ/inline-code (get @data :test-time)]]]
+       [:div.row
+        [:div.col
+         [ipt/time-input :inline-test-time data :inline true]]
+        [:div.col
+         "Inline test time field "
+         [typ/inline-code (get @data :inline-test-time)]]]
+       [:div.row
+        [:div.col
+         [ipt/select :select-test ["fred" "barney" "whilma"] data :default "barney"]]
+        [:div.col
+         "A test select "
+         [typ/inline-code (get @data :select-test)]]]
+       [:div.row
+        [:div.col
+         [ipt/select :inline-select-test ["Tom" "Dick" "Harry"] data :inline true]]
+        [:div.col
+         "An inline select test "
+         [typ/inline-code (get @data :inline-select-test)]]]
+       [:div.row
+        [:div.col
+         [ipt/list-input :test-list ["choice 1" "choice 2" "choice 3"] data]]
+        [:div.col
+         "A test list input "
+         [typ/inline-code (get @data :test-list)]]]
+       [:div.row
+        [:div.col
+         [ipt/list-input :inline-list-test ["choice 1" "choice 2" "choice 3"] data :inline true]]
+        [:div.col
+         "inline list test "
+         [typ/inline-code (get @data :inline-list-test)]]]
+       [:div.row
+        [:div.col
+         [ipt/yes-or-no :y-or-n-test data]]
+        [:div.col
+         "A test of yes-or-no "
+         [typ/inline-code (str (get @data :y-or-n-test))]]]
+       [:div.row
+        [:div.col
+         [ipt/yes-or-no :inline-y-or-n-test data :inline true]]
+        [:div.col
+         "Inline yes or no test "
+         [typ/inline-code (str (get @data :inline-y-or-n-test))]]]
        [:hr]
        [:p (str @data)]])
     )
