@@ -188,6 +188,13 @@
          [typ/inline-code (get @data :test-text)]]]
        [:div.row
         [:div.col
+         [ipt/text :default-test-text data :attrs {:value "A default value"}]]
+        [:div.col
+         "Some default test text input "
+         [typ/inline-code (get @data :default-test-text)]]]
+
+       [:div.row
+        [:div.col
          [ipt/text :inline-test-text data :inline true]]
         [:div.col
          "Inline test test input "
@@ -278,10 +285,11 @@
          [typ/inline-code (get @data :inline-test-time)]]]
        [:div.row
         [:div.col
-         [ipt/select :select-test ["fred" "barney" "whilma"] data :default "barney"]]
+         [ipt/select :select-test
+          [[:error "Error"] [:warning "Warning"] [:info "Info"]] data :default :info]]
         [:div.col
          "A test select "
-         [typ/inline-code (get @data :select-test)]]]
+         [typ/inline-code (str (get @data :select-test))]]]
        [:div.row
         [:div.col
          [ipt/select :inline-select-test ["Tom" "Dick" "Harry"] data :inline true]]

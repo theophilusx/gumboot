@@ -17,6 +17,8 @@
                      :on-change (fn [evt]
                                   (swap! model assoc id (value-of evt)))}
                     extra-attributes)]
+    (if (contains? attr :value)
+      (swap! model assoc id (:value attr)))
     [:div.form-group
      [:label.pr-2 {:for id} (utils/keyword->title id)]
      [:input attr]]))
@@ -28,6 +30,8 @@
                      :on-change (fn [evt]
                                   (swap! model assoc id (value-of evt)))}
                     extra-attrs)]
+    (if (contains? attr :value)
+      (swap! model assoc id (:value attr)))
     [:div.form-group.row
      [:label {:class "col col-form-label"
               :for   id} (utils/keyword->title id)]
@@ -147,13 +151,13 @@
     (inline-list-input id choices model attrs label-class default)
     (basic-list-input id choices model attrs default)))
 
-(defn basic-select [id options model attrs default]
+(defn basic-select [id options model extra-attrs default]
   (swap! model assoc id default)
   (let [attrs (merge {:class     "form-control"
                       :id        id
                       :on-change (fn [el]
                                    (swap! model assoc id (value-of el)))}
-                     attrs)]
+                     extra-attrs)]
     [:div.form-group
      [:label.control-label {:for (name id)} (utils/keyword->title id)]
      (into
@@ -168,13 +172,13 @@
             [:option {:value o :selected true} (str o)]
             [:option {:value o} (str o)]))))]))
 
-(defn inline-select [id options model attrs default label-class]
+(defn inline-select [id options model extra-attrs default label-class]
   (swap! model assoc id default)
   (let [attrs (merge {:class     "form-control col"
                       :id        id
                       :on-change (fn [el]
                                    (swap! model assoc id (value-of el)))}
-                     attrs)]
+                     extra-attrs)]
     [:div.form-group.row
      [:label {:class label-class
               :for   (name id)} (utils/keyword->title id)]
