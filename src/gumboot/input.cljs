@@ -10,99 +10,213 @@
    (for [o v]
      [:option {:value (utils/str->keyword o)} o])))
 
-(defn input
-  ([type id model]
-   (input type id model {}))
-  ([type id model extra-attributes]
-   (let [attr (merge {:type      (name type)
+(defn input [type id model extra-attributes]
+  (let [attr (merge {:class     "form-control"
+                     :type      (name type)
+                     :id        id
+                     :on-change (fn [evt]
+                                  (swap! model assoc id (value-of evt)))}
+                    extra-attributes)]
+    [:div.form-group
+     [:label.pr-2 {:for id} (utils/keyword->title id)]
+     [:input attr]]))
+
+(defn inline-input [type id model extra-attrs label-class]
+  (let [attr (merge {:class     "form-control col"
+                     :type      (name type)
+                     :id        id
+                     :on-change (fn [evt]
+                                  (swap! model assoc id (value-of evt)))}
+                    extra-attrs)]
+    [:div.form-group.row
+     [:label {:class "col col-form-label"
+              :for   id} (utils/keyword->title id)]
+     [:input attr]]))
+
+(defn make-input [inline type id model attrs label-class]
+  (if inline
+    (inline-input type id model attrs label-class)
+    (input type id model attrs)))
+
+(defn text [id model & {:keys [inline attrs label-class]
+                        :or {inline false
+                             attrs {}
+                             label-class "col-sm-2 col-form-label"}}]
+  (make-input inline :text id model attrs label-class))
+
+(defn password [id model & {:keys [inline attrs label-class]
+                            :or {inline false
+                                 attrs {}
+                                 label-class "col-sm-2 col-form-label"}}]
+  (make-input inline :password id model attrs label-class))
+
+(defn tel [id model & {:keys [inline attrs label-class]
+                       :or {inline false
+                            attrs {}
+                            label-class "col-sm-2 col-form-label"}}]
+  (make-input inline :tel id model attrs label-class))
+
+(defn email [id model & {:keys [inline attrs label-class]
+                         :or {inline false
+                              attrs {}
+                              label-class "col-sm-2 col-form-label"}}]
+  (make-input inline :email id model attrs label-class))
+
+(defn number [id model & {:keys [inline attrs label-class]
+                          :or {inline false
+                               attrs {}
+                               label-class "col-sm-2 col-form-label"}}]
+  (make-input inline :number id model
+              (merge attrs
+                     {:on-change
+                      (fn [e]
+                        (swap! model assoc id
+                               (js/parseFloat (value-of e))))})
+              label-class))
+
+(defn number-range [id model min max & {:keys [inline attrs label-class]
+                                        :or {inline false
+                                             attrs {}
+                                             label-class "col-sm-2 col-form-label"}}]
+  (make-input inline :range id model
+               (merge attrs
+                      {:min min
+                       :max max
+                       :on-change (fn [e]
+                                    (swap! model assoc id
+                                           (js/parseFloat (value-of e))))})
+               label-class))
+
+(defn date [id model & {:keys [inline attrs label-class]
+                        :or {inline false
+                             attrs {}
+                             label-class "col-sm-2 col-form-label"}}]
+  (make-input inline :date id model attrs label-class))
+
+(defn time-input [id model & {:keys [inline attrs label-class]
+                              :or {inline false
+                                   attrs {}
+                                   label-class "col-sm-2 col-form-label"}}]
+  (make-input inline :time id model attrs label-class))
+
+(defn basic-list-input [id choices model extra-attrs default]
+  (let [attrs (merge {:class     "form-control"
+                      :type      "text"
                       :id        id
-                      :on-change (fn [evt]
-                                   (swap! model assoc id (value-of evt)))}
-                     extra-attributes)]
-     [:div.form-group
-      [:label.pr-2 {:for id} (utils/keyword->title id)]
-      [:input.form-control attr]])))
+                      :name      id
+                      :list      (str id "-list")
+                      :on-change (fn [el]
+                                   (swap! model assoc id (value-of el)))}
+                     extra-attrs)]
+    [:div.form-group
+     [:label.pr-2 {:for id} (utils/keyword->title id)]
+     [:input attrs]
+     (into
+      [:datalist {:id (str id "-list")}]
+      (for [c choices]
+        (if (= c default)
+          [:option {:value c :selected true} (str c)]
+          [:option {:value c} (str c)])))]))
 
-(defn text
-  ([id model]
-   (input :text id model))
-  ([id model attrs]
-   (input :text id model attrs)))
+(defn inline-list-input [id choices model extra-attrs label-class default]
+  (let [attrs (merge {:class "form-control col"
+                      :type      "text"
+                      :id        id
+                      :name      id
+                      :list      (str id "-list")
+                      :on-change (fn [el]
+                                   (swap! model assoc id (value-of el)))}
+                     extra-attrs)]
+    [:div.form-group.row
+     [:label {:class label-class
+              :for id} (utils/keyword->title id)]
+     [:input attrs]
+     (into
+      [:datalist {:id (str id "-list")}]
+      (for [c choices]
+        (if (= c default)
+          [:option {:value c :selected true} (str c)]
+          [:option {:value c} (str c)])))]))
 
-(defn password
-  ([id model]
-   (input :password id model {:placeholder "Enter password"}))
-  ([id model attrs]
-   (input :password id model attrs)))
+(defn list-input [id choices model & {:keys [inline attrs label-class default]
+                                      :or {inline false
+                                           attrs {}
+                                           label-class "col-sm-2 col-form-label"
+                                           default (first choices)}}]
+  (if inline
+    (inline-list-input id choices model attrs label-class default)
+    (basic-list-input id choices model attrs default)))
 
-(defn tel
-  ([id model]
-   (input :tel id model {:placeholder "Enter phone number"}))
-  ([id model attrs]
-   (input :tel id model attrs)))
+(defn basic-select [id options model attrs default]
+  (swap! model assoc id default)
+  (let [attrs (merge {:class     "form-control"
+                      :id        id
+                      :on-change (fn [el]
+                                   (swap! model assoc id (value-of el)))}
+                     attrs)]
+    [:div.form-group
+     [:label.control-label {:for (name id)} (utils/keyword->title id)]
+     (into
+      [:select attrs]
+      (for [o options]
+        (if (vector? o)
+          (let [[v d] o]
+            (if (= v default)
+              [:option {:value v :selected true} (str d)]
+              [:option {:value v} (str d)]))
+          (if (= o default)
+            [:option {:value o :selected true} (str o)]
+            [:option {:value o} (str o)]))))]))
 
-(defn email
-  ([id model]
-   (input :email id model {:placeholder "Enter email"}))
-  ([id model attrs]
-   (input :email id model attrs)))
+(defn inline-select [id options model attrs default label-class]
+  (swap! model assoc id default)
+  (let [attrs (merge {:class     "form-control col"
+                      :id        id
+                      :on-change (fn [el]
+                                   (swap! model assoc id (value-of el)))}
+                     attrs)]
+    [:div.form-group.row
+     [:label {:class label-class
+              :for   (name id)} (utils/keyword->title id)]
+     (into
+      [:select attrs]
+      (for [o options]
+        (if (vector? o)
+          (let [[v d] o]
+            (if (= v default)
+              [:option {:value v :selected true} (str d)]
+              [:option {:value v} (str d)]))
+          (if (= o default)
+            [:option {:value o :selected true} (str o)]
+            [:option {:value o} (str o)]))))]))
 
-(defn number
-  ([id model]
-   (input :number id model))
-  ([id model attrs]
-   (input :number id model attrs)))
+(defn select [id options model & {:keys [inline attrs label-class default]
+                                  :or {inline false
+                                       attrs {}
+                                       label-class "col-sm-2 col-form-label"
+                                       default (if (vector? (first options))
+                                                 (first (first options))
+                                                 (first options))}}]
+  (if inline
+    (inline-select id options model attrs default label-class)
+    (basic-select id options model attrs default)))
 
-(defn number-range
-  ([id model min max]
-   (input :range id model {:min min :max max}))
-  ([id model min max attrs]
-   (input :range id model (assoc attrs :min min :max max))))
-
-(defn date
-  ([id model]
-   (input :date id model))
-  ([id model attrs]
-   (input :date id model attrs)))
-
-(defn time-input
-  ([id model]
-   (input :time id model))
-  ([id model attrs]
-   (input :time id model attrs)))
-
-(defn list-input
-  ([id choices model]
-   (list-input id choices model {}))
-  ([id choices model extra-attrs]
-   (let [attrs (merge {:type     "text"
-                       :id       id
-                       :list (str id "-list")
-                       :on-click (fn [el]
-                                    (swap! model assoc id (value-of el)))}
-                      extra-attrs)]
-     [:div.form-group
-      [:label.pr-2 {:for id} (utils/keyword->title id)]
-      [:input.form-control attrs]
-      (into
-       [:datalist {:id (str id "-list")}]
-       (for [c choices]
-         [:option (str c)]))])))
-
-(defn select
-  ([id options model]
-   (select id options model {}))
-  ([id options model extra-attrs]
-   (if (not (contains? @model id))
-     (swap! model assoc id (utils/str->keyword (str (first options)))))
-   (let [attrs (merge {:id        id
-                       :on-change (fn [el]
-                                    (swap! model assoc id (value-of el)))}
-                      extra-attrs)]
-     [:div.form-group
-      [:label.control-label {:for (name id)} (utils/keyword->title id)]
-      (into
-       [:select.form-control attrs]
-       (for [o options]
-         [:option {:value (utils/str->keyword (str o))} (str o)]))])))
-
+(defn yes-or-no [id model & {:keys [inline attrs default label-class]
+                             :or {inline false
+                                  attrs {}
+                                  default false
+                                  label-class "col-sm-2 col-form-label"}}]
+  (let [attrs (merge {:on-change (fn [e]
+                                   (if (or (= true (value-of e))
+                                           (= "true" (value-of e)))
+                                     (swap! model assoc id true)
+                                     (swap! model assoc id false)))}
+                     attrs)]
+    (if inline
+      (inline-select id [[true "Yes"] [false "No"]] model
+                     attrs
+                     default
+                     label-class)
+      (basic-select id [[true "Yes"] [false "No"]] model
+                    attrs
+                    default))))
