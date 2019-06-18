@@ -33,7 +33,7 @@
     (if (contains? attr :value)
       (swap! model assoc id (:value attr)))
     [:div.form-group.row
-     [:label {:class "col col-form-label"
+     [:label {:class label-class
               :for   id} (utils/keyword->title id)]
      [:input attr]]))
 
@@ -156,7 +156,8 @@
   (let [attrs (merge {:class     "form-control"
                       :id        id
                       :on-change (fn [el]
-                                   (swap! model assoc id (value-of el)))}
+                                   (swap! model assoc id (value-of el)))
+                      :defaultValue default}
                      extra-attrs)]
     [:div.form-group
      [:label.control-label {:for (name id)} (utils/keyword->title id)]
@@ -165,19 +166,16 @@
       (for [o options]
         (if (vector? o)
           (let [[v d] o]
-            (if (= v default)
-              [:option {:value v :selected true} (str d)]
-              [:option {:value v} (str d)]))
-          (if (= o default)
-            [:option {:value o :selected true} (str o)]
-            [:option {:value o} (str o)]))))]))
+            [:option {:value v} (str d)])
+          [:option {:value o} (str o)])))]))
 
 (defn inline-select [id options model extra-attrs default label-class]
   (swap! model assoc id default)
   (let [attrs (merge {:class     "form-control col"
                       :id        id
                       :on-change (fn [el]
-                                   (swap! model assoc id (value-of el)))}
+                                   (swap! model assoc id (value-of el)))
+                      :defaultValue default}
                      extra-attrs)]
     [:div.form-group.row
      [:label {:class label-class
@@ -187,12 +185,8 @@
       (for [o options]
         (if (vector? o)
           (let [[v d] o]
-            (if (= v default)
-              [:option {:value v :selected true} (str d)]
-              [:option {:value v} (str d)]))
-          (if (= o default)
-            [:option {:value o :selected true} (str o)]
-            [:option {:value o} (str o)]))))]))
+            [:option {:value v} (str d)])
+          [:option {:value o} (str o)])))]))
 
 (defn select [id options model & {:keys [inline attrs label-class default]
                                   :or {inline false
