@@ -17,8 +17,6 @@
                      :on-change (fn [evt]
                                   (swap! model assoc id (value-of evt)))}
                     extra-attributes)]
-    (if (contains? attr :value)
-      (swap! model assoc id (:value attr)))
     [:div.form-group
      [:label.pr-2 {:for id} (utils/keyword->title id)]
      [:input attr]]))
@@ -30,8 +28,6 @@
                      :on-change (fn [evt]
                                   (swap! model assoc id (value-of evt)))}
                     extra-attrs)]
-    (if (contains? attr :value)
-      (swap! model assoc id (:value attr)))
     [:div.form-group.row
      [:label {:class label-class
               :for   id} (utils/keyword->title id)]

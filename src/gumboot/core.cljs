@@ -188,7 +188,7 @@
          [typ/inline-code (get @data :test-text)]]]
        [:div.row
         [:div.col
-         [ipt/text :default-test-text data :attrs {:value "A default value"}]]
+         [ipt/text :default-test-text data :attrs {:defaultValue "A default value"}]]
         [:div.col
          "Some default test text input "
          [typ/inline-code (get @data :default-test-text)]]]
